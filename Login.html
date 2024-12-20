@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Crystal Delta</title>
+    <link rel="stylesheet" href="styls.css">
+
+    <!-- Firebase App (Core SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-auth.js"></script>
+
+    <script>
+        // Your Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDm6584s05kG-ZrRVbrj4sbJmD-XM_iU-0",
+            authDomain: "pet-adoption1.firebaseapp.com",
+            projectId: "pet-adoption1",
+            storageBucket: "pet-adoption1.firebasestorage.app",
+            messagingSenderId: "768693663480",
+            appId: "1:768693663480:web:f7888e0cfde11d531dad0d",
+            measurementId: "G-P735X6FSVB"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+
+        // Handle Login Form Submission
+        document.addEventListener('DOMContentLoaded', function () {
+            const loginForm = document.getElementById('login-form');
+            loginForm.addEventListener('submit', async (e) => {
+                e.preventDefault(); // Prevent form submission
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+
+                try {
+                    const userCredential = await auth.signInWithEmailAndPassword(email, password);
+                    alert('Login successful!');
+                    console.log(userCredential.user);
+                    // Redirect to petadoption.html after successful login
+                    window.location.href = 'petadoption.html';
+                } catch (error) {
+                    alert(error.message);
+                }
+            });
+        });
+    </script>
+</head>
+<body>
+    <div class="container">
+        <!-- Illustration Section -->
+        <div class="illustration">
+            <img src="adopt-me.jpg" alt="Adopt Me Illustration" width="500px">
+        </div>
+
+        <!-- Form Section -->
+        <div class="form-container">
+            <div class="logo">
+                <img src="c-d_logo.jpg" alt="Crystal Delta Logo">
+            </div>
+            <form id="login-form">
+                <h2>Login</h2>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                <button type="submit" class="btn">Login</button>
+                <p>Don’t have an account? <a href="register.html">Register</a></p>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

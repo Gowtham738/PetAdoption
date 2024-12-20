@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Crystal Delta</title>
+    <link rel="stylesheet" href="styls.css">
+
+    <!-- Firebase App (Core SDK) -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+
+    <!-- Firebase Authentication -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+    <script>
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDm6584s05kG-ZrRVbrj4sbJmD-XM_iU-0",
+            authDomain: "pet-adoption1.firebaseapp.com",
+            projectId: "pet-adoption1",
+            storageBucket: "pet-adoption1.firebaseapp.com",
+            messagingSenderId: "768693663480",
+            appId: "1:768693663480:web:f7888e0cfde11d531dad0d",
+            measurementId: "G-P735X6FSVB"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+    </script>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <div class="logo">
+                <img src="c-d_logo.jpg" alt="Crystal Delta Logo">
+            </div>
+            <form id="register-form">
+                <h2>Please Fill out Form to Register!</h2>
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required>
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+                <label for="confirm-password">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" required>
+                <button type="submit" class="btn">Register</button>
+                <p>Yes, I have an account? <a href="login.html">Login</a></p>
+            </form>
+        </div>
+        <div class="illustration">
+            <img src="adopted.jpg" alt="Adopted Illustration">
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('register-form').addEventListener('submit', async (e) => {
+            e.preventDefault(); // Prevent form submission
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirm-password').value;
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match!');
+                return;
+            }
+
+            try {
+                const userCredential = await auth.createUserWithEmailAndPassword(email, password);
+                alert('Registration successful!');
+                console.log(userCredential.user);
+                // Redirect to login page or another page
+                window.location.href = 'login.html';
+            } catch (error) {
+                console.error("Error during registration:", error);
+                alert(`Error: ${error.message}`);
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pet Adoption</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app">
+ <nav>
+  <ul>
+    <li><button>Home</button></li>
+    <li><button>Adopt</button></li>
+    <li><button>Get Involved</button></li>
+    <li><button>Blog</button></li>
+    <li><button>About Us</button></li>
+  </ul>
+  <div class="contact-btn-wrapper">
+    <button onclick="openModal()" class="contact-btn">Contact Us</button>
+  </div>
+</nav>
+
+    <header class="header">
+      <div class="header-content">
+        <div class="header-text">
+          <h1>Embrace Endless Love with Your New Furry Best Friend.</h1>
+          <p>
+            Embrace endless love with your new furry best friend. Adopt now and start creating unforgettable memories together.
+          </p>
+        </div>
+        <div class="header-image">
+          <!-- Slider Container -->
+          <div class="slider-container">
+            <div class="slider" id="slider">
+              <!-- Individual slides -->
+              <div class="slider-item"><img src="image01.jpg" alt="Pet 1" /></div>
+              <div class="slider-item"><img src="image02.jpg" alt="Pet 2" /></div>
+              <div class="slider-item"><img src="image03.jpg" alt="Pet 3" /></div>
+            </div>
+            <div class="nav-buttons">
+              <button class="nav-button" onclick="moveSlider(-1)">&#10094;</button>
+              <button class="nav-button" onclick="moveSlider(1)">&#10095;</button>
+            </div>
+          </div>
+          <!-- Dots -->
+          <div class="dots-container" id="dotsContainer">
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Search Filter -->
+    <div class="filter-container">
+      <div class="filter-item">
+        <label>Pet Type:</label>
+        <select id="petType" onchange="updateBreeds()">
+          <option value="All">All</option>
+          <option value="Dog">Dogs</option>
+          <option value="Cat">Cats</option>
+          <option value="Other">Others</option>
+        </select>
+      </div>
+      <div class="filter-item">
+        <label>Breed:</label>
+        <select id="breed">
+          <option value="All">All</option>
+        </select>
+      </div>
+      <div class="filter-item">
+        <label>Gender:</label>
+        <select id="gender">
+          <option value="All">All</option>
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+      </div>
+      <div class="filter-item">
+        <label>Age:</label>
+        <select id="age">
+          <option value="All">All</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+        </select>
+      </div>
+      <div class="filter-buttons">
+        <button class="clear-btn" onclick="clearFilters()">Clear</button>
+        <button class="search-btn" onclick="searchFilters()">Search</button>
+      </div>
+    </div>
+
+    <!-- Pet Gallery -->
+    <div class="pet-gallery" id="petGallery"></div>
+
+<!-- Contact Modal -->
+<div id="modal" class="modal-overlay">
+  <div class="modal">
+    <button class="close-btn" onclick="closeModal()">✖</button>
+    <h2>Contact Us</h2>
+    <div class="modal-content">
+      <div class="contact-details">
+        <h3>Your Pet Adoption Farm</h3>
+        <p>
+          Address: <br />
+          #12, West Garden Street, BKL, West Modern City, Newport - 49585.
+        </p>
+        <img src="contact.jpeg" alt="Contact" />
+      </div>
+      <div class="contact-form">
+        <form onsubmit="handleSubmit(event)">
+          <label for="name">Full Name</label>
+          <input type="text" id="name" placeholder="Your Name" required />
+
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="Your Email" required />
+
+          <label for="phone">Phone</label>
+          <input type="tel" id="phone" placeholder="Phone Number" required />
+
+          <label for="address">Address</label>
+          <input type="text" id="address" placeholder="Your Address" required />
+
+          <button type="submit" class="send-btn">Send</button>
+        </form>
+        <p id="success-message" style="color: green; display: none; margin-top: 10px;">
+          Save Successful!
+        </p>
+      </div>
+    </div>
+  </div>
+</div>  
+
+  <script>
+    function closeModal() {
+    document.getElementById('modal').style.display = 'none';
+  }
+
+  function handleSubmit(event) {
+    event.preventDefault(); // Prevent the form from refreshing the page
+    document.getElementById('success-message').style.display = 'block'; // Show the success message
+  }
+    // Modal functions
+    function openModal() {
+      document.getElementById('modal').style.display = 'block';
+    }
+
+    function closeModal() {
+      document.getElementById('modal').style.display = 'none';
+    }
+
+    // Pet data
+    const pets = [
+      { id: 1, type: "Dog", breed: "Labrador", gender: "Male", age: 2, image: "dog1.jpg" },
+      { id: 2, type: "Dog", breed: "Beagle", gender: "Female", age: 3, image: "dog2.jpg" },
+      { id: 3, type: "Dog", breed: "Bulldog", gender: "Male", age: 4, image: "dog3.jpg" },
+      { id: 4, type: "Dog", breed: "Poodle", gender: "Female", age: 1, image: "dog4.jpg" },
+      { id: 5, type: "Cat", breed: "Persian", gender: "Male", age: 2, image: "pussycat.jpg" },
+      { id: 6, type: "Other", breed: "Chicken", gender: "Female", age: 1, image: "chicken.jpg" },
+      { id: 7, type: "Other", breed: "Duck", gender: "Female", age: 2, image: "duck.jpg" },
+      { id: 8, type: "Other", breed: "Goat", gender: "Male", age: 3, image: "goat.jpg" },
+      { id: 9, type: "Dog", breed: "Golden Retriever", gender: "Male", age: 3, image: "dog5.jpg" },
+      { id: 10, type: "Dog", breed: "Husky", gender: "Female", age: 2, image: "dog6.jpg" },
+      { id: 11, type: "Dog", breed: "German Shepherd", gender: "Male", age: 4, image: "dog7.jpg" },
+    ];
+
+    // Filter functionality
+    function clearFilters() {
+      document.getElementById('petType').value = 'All';
+      document.getElementById('breed').value = 'All';
+      document.getElementById('gender').value = 'All';
+      document.getElementById('age').value = 'All';
+      updateGallery(pets);
+      updateBreeds();
+    }
+
+    function searchFilters() {
+      const petType = document.getElementById('petType').value;
+      const breed = document.getElementById('breed').value;
+      const gender = document.getElementById('gender').value;
+      const age = document.getElementById('age').value;
+
+      const filteredPets = pets.filter(pet => {
+        return (petType === 'All' || pet.type === petType) &&
+               (breed === 'All' || pet.breed === breed) &&
+               (gender === 'All' || pet.gender === gender) &&
+               (age === 'All' || pet.age.toString() === age);
+      });
+      
+      updateGallery(filteredPets);
+    }
+
+    function updateGallery(filteredPets) {
+      const gallery = document.getElementById('petGallery');
+      gallery.innerHTML = '';
+      filteredPets.forEach(pet => {
+        const petCard = document.createElement('div');
+        petCard.classList.add('pet-card');
+        petCard.innerHTML = `
+          <img src="${pet.image}" alt="${pet.type}" class="pet-img" />
+        `;
+        gallery.appendChild(petCard);
+      });
+    }
+
+    // Breeds update based on pet type
+    function updateBreeds() {
+      const petType = document.getElementById('petType').value;
+      const breedSelect = document.getElementById('breed');
+      breedSelect.innerHTML = '<option value="All">All</option>'; // Clear existing breeds
+
+      if (petType === 'Dog') {
+        const breeds = ['Labrador', 'Beagle', 'Bulldog', 'Poodle', 'Golden Retriever', 'Husky', 'German Shepherd'];
+        breeds.forEach(breed => {
+          const option = document.createElement('option');
+          option.value = breed;
+          option.textContent = breed;
+          breedSelect.appendChild(option);
+        });
+      } else if (petType === 'Cat') {
+        const breeds = ['Persian'];
+        breeds.forEach(breed => {
+          const option = document.createElement('option');
+          option.value = breed;
+          option.textContent = breed;
+          breedSelect.appendChild(option);
+        });
+      } else if (petType === 'Other') {
+        const breeds = ['Chicken', 'Duck', 'Goat'];
+        breeds.forEach(breed => {
+          const option = document.createElement('option');
+          option.value = breed;
+          option.textContent = breed;
+          breedSelect.appendChild(option);
+        });
+      }
+    }
+
+    // Initial gallery update and breed population
+    updateGallery(pets);
+    updateBreeds();
+
+    // Slider functionality
+    let currentIndex = 0;
+
+    function moveSlider(step) {
+      const slides = document.querySelectorAll('.slider-item');
+      const totalSlides = slides.length;
+      currentIndex = (currentIndex + step + totalSlides) % totalSlides;
+      updateSlider();
+    }
+
+    function currentSlide(index) {
+      currentIndex = index - 1; // Adjust for 0-based index
+      updateSlider();
+    }
+
+    function updateSlider() {
+      const slider = document.querySelector('.slider');
+      const slides = document.querySelectorAll('.slider-item');
+      const dots = document.querySelectorAll('.dot');
+
+      // Move slider
+      slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+      // Update active dots
+      dots.forEach(dot => dot.classList.remove('active'));
+      dots[currentIndex].classList.add('active');
+    }
+
+    // Initial slider setup
+    updateSlider();
+  </script>
+
+  <style>
+    /* Slider Styles */
+    .slider-container {
+      position: relative;
+      overflow: hidden;
+      width: 100%;
+    }
+
+    .slider {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
+    }
+
+    .slider-item {
+      flex: 0 0 100%;
+      height: 300px; /* Ensure all images have same height */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .slider-item img {
+      width: 100%; 
+      height: 100%; /* Ensures the images fill the height of the slider */
+      object-fit: cover; /* Maintains aspect ratio while filling the container */
+    }
+    /* General styles for the modal overlay */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+/* Modal container styling */
+.modal {
+  background-color: #fff;
+  width: 90%;
+  max-width: 600px;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  padding: 20px;
+  position: relative;
+  overflow: auto;
+}
+
+/* Close button styling */
+.close-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  font-size: 20px;
+  cursor: pointer;
+  color: #333;
+}
+
+/* Modal header styling */
+.modal h2 {
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+/* Modal content layout */
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Contact details section */
+.contact-details {
+  text-align: center;
+}
+.contact-details h3 {
+  margin-bottom: 10px;
+  color: #444;
+}
+.contact-details p {
+  margin-bottom: 15px;
+  color: #666;
+}
+.contact-details img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 5px;
+}
+
+/* Contact form section */
+.contact-form form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+.contact-form label {
+  font-weight: bold;
+  color: #333;
+}
+.contact-form input {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+.contact-form input:focus {
+  outline: none;
+  border-color: #007BFF;
+}
+
+/* Send button styling */
+.send-btn {
+  padding: 10px;
+  font-size: 16px;
+  color: #fff;
+  background-color: #007BFF;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+.send-btn:hover {
+  background-color: #0056b3;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .modal-content {
+    flex-direction: column;
+  }
+}
+
+
+    .nav-buttons {
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      transform: translateY(-50%);
+    }
+
+    .nav-button {
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+    }
+
+    .dots-container {
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    .dot {
+      height: 15px;
+      width: 15px;
+      margin: 0 5px;
+      background-color: #bbb;
+      border-radius: 50%;
+      display: inline-block;
+      transition: background-color 0.3s;
+      cursor: pointer;
+    }
+
+    .dot.active {
+      background-color: #717171;
+    }
+  </style>
+</body>
+</html>
