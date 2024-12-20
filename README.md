@@ -1,4 +1,4 @@
-Pet Adoption Portal
+PET ADOPTION PORTAL
 
 Overview :
      * The Pet Adoption Portal is a web application designed to connect animal lovers with pets in need of loving homes.
